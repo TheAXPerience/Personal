@@ -27,7 +27,7 @@ We assume the former, since the latter would involve having to keep track of pre
 Each script would have to contain enough information for the system to determine the scenery, characters, and actions available.
 The scenery can be written as a name specific to the system, like "beach" for a beach scene or "city" for a scene in the city.
 In some games, this is unneccessary as dialogue happens in a layer above the gameplay, but for visual novels, the scenery will be in constant change
-The characters are simple and can be indeitified with either a character id or their name, depending on the specifics of the game
+The characters are simple and can be indenitified with either a character id or their name, depending on the specifics of the game
 (for example, John Cena and John Marsh and...).
 Either way, the scenery and characters can be simple to represent in text form.
 
@@ -58,3 +58,56 @@ Then, there would be a sort of "main script" that allows the player to make a ch
 This main script doesn't need be a file, but hardcoded into the game itself, as it acts as a ub between all scenes.
 Then, all scene files can also be hardcoded into the game, or the file names can be stored in its own file.
 The indexer file will be read at the start of execution and arranged, perhaps in a `HashMap`, to allow the system to easily access the scripts.
+
+### Graphics
+
+There are not too many things to keep track of in terms of graphics. Only the following need to be kept track of:
+- The background
+- Character portraits
+- Text box
+- Buttons (if not part of the text box)
+
+First off, we question the size we want to define the game. I'm thinking 1080p (1920 x 1080 pixels) as standard.
+However, what happens if the screen is too large or too small?
+Should we allow resizing or not? This might have to be a question for another time, as the major problem with resizing is having to scale everything with each other dependent on the window size.
+
+The background itself will have to be changeable, which may be simple; just change the image on a background tile of some sort.
+The exact details might differ between GUI systems, but for now we assume that changing an image on a background is implemented.
+
+Character portraits are down to whether we want to show the portraits all at once (in scenes with multiple characters talking) or one at a time.
+For now we assume one at a time, as showing all at once, or multiple at once, means we have to consider positioning the images along with possible overlapping.
+The character portraits themselves cannot be just any picture.
+They need an invisible background so it doesn't clash with the current background image.
+
+The text box is something that might be difficult to consider.
+I do not believe that GUi systems have lots of customization for their text boxes, and some games might want to use a custom text box.
+This text box could be stored in the program as an image file, and we would overlap text on top to simulate an actual text box.
+The text would have to be properly aligned, however, to make sure they don't collide with the borders of the custom text box.
+Buttons may be similar in nature to text boxes, where a custom button is used instead of the GUI system's button.
+However, is it possible for a button to exist such that it can be pressed while being invisible?
+Or would we have to program the image itself to be clickable?
+
+### Saving
+As with many games, visual novels have a system to save. What do we need to save?
+How large should the save file be? Can it be just any size or should it remain constant?
+If it remains constant, then the game itself should remain constant.
+This way, we ensure there are no updates to the game that can break the status of the player's current save.
+
+However if we were to grow the game itself, would we not want a growing save file?
+But then how do we ensure the save file is viable regardless of the version of the game?
+Perhaps we have different functions that read save files differently.
+These different functions correspond to different versions of the game, and the file itself could have the version number as the first byte.
+Then, the file could then be read by the system to continue from where the player last left off.
+There are probably better was to do this, but this is the first thought that comes to mind.
+
+As for what needs to be save, it depends on the game. In our case, we consider the following:
+- What scenes have been seen?
+- What is the character's current progress?
+- What is the character's current flags and stats?
+- Information like names
+
+Many of these things can be saved as bits that say whether a scene has been scene, a flag has been set, or something.
+Stats are a different matter; they may have to be stored as a number of bytes.
+For numerical stats, we determine a place in the save file to be that stat.
+For strings like names, we probably want to allocate an array of unicode characters with a null-terminator character at the end.
+Why unicode? Why not? ASCII can work, but unicode is more diverse. Since, you know, 2 byte characters vs. 1.
