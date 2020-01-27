@@ -1,0 +1,33 @@
+thief
+splash
+2 1.3 95 5 10 0 35 1
+lancer
+icicle
+3 1.4 90 15 10 0 40 1
+warrior
+fireball
+1 1.6 90 10 10 0 35 1
+puppeteer
+briar
+4 1.5 85 20 10 0 30 1
+wolf
+lightning
+1 1.8 80 15 20 0 20 1
+wolf
+void
+0 1.6 100 10 5 0 30 1
+lancer
+burst
+0 1.8 75 5 20 0 20 1
+puppeteer
+healing light
+0 0 0 0 0 0 20 2
+assassin
+whirlwind
+3 1.3 100 10 5 0 40 1
+paladin
+stalagmite
+1 1.5 85 5 20 0 30 1
+archer
+bolt
+1 1.6 90 10 15 0 30 1
